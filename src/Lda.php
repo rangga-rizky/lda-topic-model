@@ -4,7 +4,8 @@ namespace TopicModel;
 class Lda {
     protected $n_of_topics,$document_topic_counts,$W,$topic_word_counts,$topic_counts,$document_lengths,$alpha,$beta;
 
-    public function modelling($tokenized_data,$n_of_topics,$alpha,$beta){            
+    public function modelling($tokenized_data,$n_of_topics,$alpha,$beta){       
+      
         $this->n_of_topics = $n_of_topics;
         $this->alpha = $alpha;
         $this->beta = $beta;
@@ -19,7 +20,9 @@ class Lda {
                     $distinct_words[] = $word;
                 }
             }
-        }
+        }  
+
+        $this->W = sizeof($distinct_words);
 
         //init document_topic_counts
         for ($i=0; $i < sizeof($tokenized_data); $i++) { 
@@ -27,11 +30,11 @@ class Lda {
                 $this->document_topic_counts[$i][$j] = 0;
             }
         }
+              
 
         for ($i=0; $i < $this->n_of_topics; $i++) { 
             $this->topic_counts[$i] = 0;
         }
-
         $total_lenght = sizeof($tokenized_data);
 
         //inisialisasi tiap kata dengan random topik
@@ -43,6 +46,9 @@ class Lda {
             }
             $document_topics[] = $sentence_topic;
         }
+
+     
+
 
         #looping per dokumen
         for ($d=0; $d < $total_lenght; $d++) { 
@@ -59,17 +65,18 @@ class Lda {
             }
         }
 
-        for ($iterasi=0; $iterasi < 1100; $iterasi++) { 
+        for ($iterasi=0; $iterasi < 1000; $iterasi++) { 
             for ($d=0; $d < $total_lenght; $d++) { 
                 for ($w=0; $w < sizeof($tokenized_data[$d]["tokens"]) ; $w++) { 
                     $this->document_topic_counts[$d][$document_topics[$d][$w]]--;
                     $this->topic_word_counts[$document_topics[$d][$w]][$tokenized_data[$d]["tokens"][$w]]--;
                     $this->topic_counts[$document_topics[$d][$w]]--;
                     $this->document_lengths[$d]--;
-
+                    
                     $new_topic = $this->choose_new_topic($d, $tokenized_data[$d]["tokens"][$w]);
                     $document_topics[$d][$w] = $new_topic;
-
+                    
+                    
                     $this->document_topic_counts[$d][$document_topics[$d][$w]]++;
                     $this->topic_word_counts[$document_topics[$d][$w]][$tokenized_data[$d]["tokens"][$w]]++;
                     $this->topic_counts[$document_topics[$d][$w]]++;
@@ -102,8 +109,9 @@ class Lda {
         if(!isset($this->topic_word_counts[$topic][$word])){
             $this->topic_word_counts[$topic][$word] = 0;
         }
+        
         return (($this->topic_word_counts[$topic][$word] + $beta) /
-            ($this->topic_counts[$topic] + $this->W * $beta));
+        ($this->topic_counts[$topic] + $this->W * $beta));
     }
 
     private function topic_weight($d, $word, $K_){
