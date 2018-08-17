@@ -4,4 +4,4 @@ ingin tahu apa itu lda dan topic model? goto here https://medium.com/@ranggaanto
 
 # How to use
 install via composer
-'''composer require rangga/lda-topic-model'''
+```composer require rangga/lda-topic-model```
