@@ -1,7 +1,7 @@
 <?php 
 namespace TopicModel;
 
-class LdaTopicModel {
+class Lda {
     protected $n_of_topics,$document_topic_counts,$W,$topic_word_counts,$topic_counts,$document_lengths,$alpha,$beta;
 
     public function modelling($tokenized_data,$n_of_topics,$alpha,$beta){            
