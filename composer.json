@@ -1,0 +1,21 @@
+{
+    "name": "rangga/lda-topic-model",
+    "description": "Topic Modelling with Latent Dirchlect Allocation",
+    "homepage": "https://github.com/rangga-rizky/lda-topic-model",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rangga Rizky Ardhianto",
+            "email": "ranggaantok@gmail.com",
+            "homepage": "https://medium.com/@ranggaantok",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "LdaTopicModel\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
